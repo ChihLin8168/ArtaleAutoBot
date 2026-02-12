@@ -88,7 +88,7 @@ namespace ArtaleAutoBot
             {
                 // 獲取目前滑鼠位置並套用偏移：左移 15px (-15)，下移 15px (+15)
                 System.Drawing.Point rawPos = Cursor.Position;
-                recordedF1Pos = new System.Drawing.Point(rawPos.X - 15, rawPos.Y + 15);
+                recordedF1Pos = new System.Drawing.Point(rawPos.X - 35, rawPos.Y + 35);
 
                 Rectangle r = new Rectangle(recordedF1Pos.X - 30, recordedF1Pos.Y - 30, 60, 60);
                 using (Bitmap b = new Bitmap(r.Width, r.Height))
