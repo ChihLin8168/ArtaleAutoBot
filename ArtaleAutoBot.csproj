@@ -8,4 +8,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="OpenCvSharp4.Extensions" Version="4.13.0.20260211" />
+    <PackageReference Include="OpenCvSharp4.Windows" Version="4.13.0.20260211" />
+  </ItemGroup>
+
 </Project>

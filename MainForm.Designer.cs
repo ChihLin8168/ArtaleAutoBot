@@ -3,12 +3,10 @@
     partial class MainForm
     {
         private System.ComponentModel.IContainer components = null;
-
-        // --- UI 元件定義 ---
-        private System.Windows.Forms.TextBox txtS1, txtS2, txtS3, txtS4, txtS5;
-        private System.Windows.Forms.TextBox txtInterval;
-        private System.Windows.Forms.TextBox txtLeftSec, txtRightSec, txtWaitSec; // 新增參數
-        private System.Windows.Forms.Label lblMousePos, lblStatus, lblCountdown, lblHint;
+        private System.Windows.Forms.TextBox txtS1, txtS2, txtS3, txtS4, txtS5, txtInterval, txtThreshold, txtWaitSec;
+        private System.Windows.Forms.CheckBox chkS1, chkS2, chkS3, chkS4, chkS5;
+        private System.Windows.Forms.Label lblMousePos, lblStatus, lblCountdown, lblHint, lblPicTitle;
+        private System.Windows.Forms.PictureBox picPreview;
 
         protected override void Dispose(bool disposing)
         {
@@ -18,106 +16,107 @@
 
         private void InitializeComponent()
         {
-            this.txtS1 = new System.Windows.Forms.TextBox();
-            this.txtS2 = new System.Windows.Forms.TextBox();
-            this.txtS3 = new System.Windows.Forms.TextBox();
-            this.txtS4 = new System.Windows.Forms.TextBox();
+            this.txtS1 = new System.Windows.Forms.TextBox(); this.txtS2 = new System.Windows.Forms.TextBox();
+            this.txtS3 = new System.Windows.Forms.TextBox(); this.txtS4 = new System.Windows.Forms.TextBox();
             this.txtS5 = new System.Windows.Forms.TextBox();
-            this.txtInterval = new System.Windows.Forms.TextBox();
-            this.txtLeftSec = new System.Windows.Forms.TextBox();
-            this.txtRightSec = new System.Windows.Forms.TextBox();
+            this.chkS1 = new System.Windows.Forms.CheckBox(); this.chkS2 = new System.Windows.Forms.CheckBox();
+            this.chkS3 = new System.Windows.Forms.CheckBox(); this.chkS4 = new System.Windows.Forms.CheckBox();
+            this.chkS5 = new System.Windows.Forms.CheckBox();
+            this.txtInterval = new System.Windows.Forms.TextBox(); this.txtThreshold = new System.Windows.Forms.TextBox();
             this.txtWaitSec = new System.Windows.Forms.TextBox();
-            this.lblMousePos = new System.Windows.Forms.Label();
-            this.lblStatus = new System.Windows.Forms.Label();
-            this.lblCountdown = new System.Windows.Forms.Label();
-            this.lblHint = new System.Windows.Forms.Label();
+            this.lblMousePos = new System.Windows.Forms.Label(); this.lblStatus = new System.Windows.Forms.Label();
+            this.lblCountdown = new System.Windows.Forms.Label(); this.lblHint = new System.Windows.Forms.Label();
+            this.lblPicTitle = new System.Windows.Forms.Label();
+            this.picPreview = new System.Windows.Forms.PictureBox();
 
-            // --- 設定視窗 ---
-            this.Text = "Artale 自動化腳本 (防偵測隨機版)";
-            this.Size = new System.Drawing.Size(420, 600);
+            // --- 視窗本體設定 ---
+            this.Text = "Artale Chihlin 自動感應版";
+            this.Size = new System.Drawing.Size(550, 680);
+            this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 
-            // --- 技能輸入框 (1-5) ---
-            int startY = 20;
-            System.Windows.Forms.TextBox[] boxes = { txtS1, txtS2, txtS3, txtS4, txtS5 };
+            // --- 1. 技能設定區 (含 CheckBox, TextBox, Label) ---
+            TextBox[] tbs = { txtS1, txtS2, txtS3, txtS4, txtS5 };
+            CheckBox[] chks = { chkS1, chkS2, chkS3, chkS4, chkS5 };
             for (int i = 0; i < 5; i++)
             {
-                boxes[i].Location = new System.Drawing.Point(30, startY + (i * 30));
-                boxes[i].Size = new System.Drawing.Size(60, 22);
-                this.Controls.Add(boxes[i]);
+                chks[i].Location = new System.Drawing.Point(30, 30 + (i * 35));
+                chks[i].Size = new System.Drawing.Size(20, 20);
+                chks[i].Checked = true;
+                this.Controls.Add(chks[i]);
 
-                Label lbl = new Label() { Text = $"技能 {i + 1} 按鍵", Location = new Point(100, startY + (i * 30)), AutoSize = true };
-                this.Controls.Add(lbl);
+                tbs[i].Location = new System.Drawing.Point(60, 30 + (i * 35));
+                tbs[i].Size = new System.Drawing.Size(70, 25);
+                tbs[i].TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+                this.Controls.Add(tbs[i]);
+
+                Label lblSkill = new Label()
+                {
+                    Text = $"技能 {i + 1} 按鍵 ",
+                    Location = new System.Drawing.Point(140, 33 + (i * 35)),
+                    AutoSize = true
+                };
+                this.Controls.Add(lblSkill);
             }
 
-            // --- 參數設定區 ---
-            int paramY = 180;
+            // --- 2. 參數設定區 ---
+            int py = 220;
+            this.txtThreshold.Location = new System.Drawing.Point(30, py); this.txtThreshold.Size = new System.Drawing.Size(70, 25); this.txtThreshold.Text = "0.85";
+            Label lblT = new Label() { Text = "辨識門檻 (建議 0.8-0.9)", Location = new System.Drawing.Point(110, py + 3), AutoSize = true };
+            this.Controls.Add(this.txtThreshold); this.Controls.Add(lblT);
 
-            // 1. 左移秒數
-            this.txtLeftSec.Location = new System.Drawing.Point(30, paramY);
-            this.txtLeftSec.Size = new System.Drawing.Size(60, 22);
-            this.txtLeftSec.Text = "5";
-            this.Controls.Add(new Label() { Text = "向左移動 (秒):", Location = new Point(100, paramY), AutoSize = true });
-            this.Controls.Add(txtLeftSec);
+            this.txtWaitSec.Location = new System.Drawing.Point(30, py + 35); this.txtWaitSec.Size = new System.Drawing.Size(70, 25); this.txtWaitSec.Text = "3";
+            Label lblW = new Label() { Text = "抵達後等待秒數", Location = new System.Drawing.Point(110, py + 38), AutoSize = true };
+            this.Controls.Add(this.txtWaitSec); this.Controls.Add(lblW);
 
-            // 2. 右移秒數
-            this.txtRightSec.Location = new System.Drawing.Point(30, paramY + 30);
-            this.txtRightSec.Size = new System.Drawing.Size(60, 22);
-            this.txtRightSec.Text = "2";
-            this.Controls.Add(new Label() { Text = "向右移動 (秒):", Location = new Point(100, paramY + 30), AutoSize = true });
-            this.Controls.Add(txtRightSec);
+            this.txtInterval.Location = new System.Drawing.Point(30, py + 70); this.txtInterval.Size = new System.Drawing.Size(70, 25); this.txtInterval.Text = "240";
+            Label lblI = new Label() { Text = "總循環冷卻秒數", Location = new System.Drawing.Point(110, py + 73), AutoSize = true };
+            this.Controls.Add(this.txtInterval); this.Controls.Add(lblI);
 
-            // 3. 施放前等待
-            this.txtWaitSec.Location = new System.Drawing.Point(30, paramY + 60);
-            this.txtWaitSec.Size = new System.Drawing.Size(60, 22);
-            this.txtWaitSec.Text = "10";
-            this.Controls.Add(new Label() { Text = "施放前等待 (秒):", Location = new Point(100, paramY + 60), AutoSize = true });
-            this.Controls.Add(txtWaitSec);
+            // --- 3. 圖片預覽區 ---
+            this.lblPicTitle.Location = new System.Drawing.Point(330, 25);
+            this.lblPicTitle.Text = "F1 截圖預覽：";
+            this.lblPicTitle.AutoSize = true;
+            this.Controls.Add(lblPicTitle);
 
-            // 4. 總循環時間
-            this.txtInterval.Location = new System.Drawing.Point(30, paramY + 90);
-            this.txtInterval.Size = new System.Drawing.Size(60, 22);
-            this.txtInterval.Text = "240";
-            this.Controls.Add(new Label() { Text = "總循環間隔 (秒):", Location = new Point(100, paramY + 90), AutoSize = true });
-            this.Controls.Add(txtInterval);
+            this.picPreview.Location = new System.Drawing.Point(330, 50);
+            this.picPreview.Size = new System.Drawing.Size(160, 160);
+            this.picPreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.picPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picPreview.BackColor = System.Drawing.Color.Black;
+            this.Controls.Add(picPreview);
 
-            // --- 分隔線 ---
-            Label line = new Label()
-            {
-                BorderStyle = BorderStyle.Fixed3D,
-                Location = new Point(20, paramY + 130),
-                Size = new Size(360, 2)
-            };
-            this.Controls.Add(line);
-
-            // --- 狀態顯示區 ---
-            this.lblMousePos.Location = new System.Drawing.Point(30, 330);
+            // --- 4. 狀態與說明區 (這部分是您之前說沒出來的地方) ---
+            this.lblMousePos.Location = new System.Drawing.Point(30, 350);
             this.lblMousePos.Text = "記錄位置: 尚未記錄 (請按 F2)";
-            this.lblMousePos.ForeColor = Color.DarkSlateGray;
             this.lblMousePos.AutoSize = true;
-
-            this.lblStatus.Location = new System.Drawing.Point(30, 360);
-            this.lblStatus.Text = "狀態：待機中";
-            this.lblStatus.Font = new Font("微軟正黑體", 10, FontStyle.Bold);
-            this.lblStatus.ForeColor = Color.Blue;
-            this.lblStatus.AutoSize = true;
-
-            this.lblCountdown.Location = new System.Drawing.Point(30, 395);
-            this.lblCountdown.Text = "下次循環倒數：0 秒";
-            this.lblCountdown.Font = new Font("Consolas", 12, FontStyle.Bold);
-            this.lblCountdown.ForeColor = Color.DarkGreen;
-            this.lblCountdown.AutoSize = true;
-
-            // --- 快捷鍵說明 ---
-            this.lblHint.Location = new System.Drawing.Point(30, 440);
-            this.lblHint.Text = "【快捷鍵說明】\nF2 - 記錄目前滑鼠座標 (必做)\nF3 - 啟動自動化循環 (隨機防偵測模式)\nF4 - 立即停止所有動作";
-            this.lblHint.Font = new Font("微軟正黑體", 9);
-            this.lblHint.ForeColor = Color.Crimson;
-            this.lblHint.AutoSize = true;
-
             this.Controls.Add(lblMousePos);
+
+            this.lblStatus.Location = new System.Drawing.Point(30, 380);
+            this.lblStatus.Text = "狀態：待機中";
+            this.lblStatus.Font = new System.Drawing.Font("微軟正黑體", 10, System.Drawing.FontStyle.Bold);
+            this.lblStatus.ForeColor = System.Drawing.Color.Blue;
+            this.lblStatus.AutoSize = true;
             this.Controls.Add(lblStatus);
+
+            this.lblCountdown.Location = new System.Drawing.Point(30, 415);
+            this.lblCountdown.Text = "下次循環倒數：0 秒";
+            this.lblCountdown.Font = new System.Drawing.Font("Consolas", 12, System.Drawing.FontStyle.Bold);
+            this.lblCountdown.ForeColor = System.Drawing.Color.DarkGreen;
+            this.lblCountdown.AutoSize = true;
             this.Controls.Add(lblCountdown);
+
+            this.lblHint.Location = new System.Drawing.Point(30, 460);
+            this.lblHint.Size = new System.Drawing.Size(480, 150);
+            this.lblHint.Text = "【操作說明】\n" +
+                               "F1 - 將滑鼠移到定點(如傳送門)按壓截圖\n" +
+                               "F2 - 記錄目前滑鼠座標 (點擊標記點用)\n" +
+                               "F3 - 啟動自動化 / F4 - 停止動作\n\n" +
+                               "💡 點擊上方技能框後，直接按下鍵盤鍵 (如 Shift) 即可設定。";
+            this.lblHint.Font = new System.Drawing.Font("微軟正黑體", 9);
+            this.lblHint.ForeColor = System.Drawing.Color.Crimson;
+            this.lblHint.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblHint.Padding = new System.Windows.Forms.Padding(5);
             this.Controls.Add(lblHint);
         }
     }
