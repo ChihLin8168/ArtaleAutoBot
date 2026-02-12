@@ -49,8 +49,8 @@ namespace ArtaleAutoBot
             // 預設值設定
             txtInterval.Text = "240";
             txtLeftSec.Text = "5";   // 新增：左移預設 5 秒
-            txtRightSec.Text = "2";  // 新增：右移預設 2 秒
-            txtWaitSec.Text = "10";  // 新增：技能前等待預設 10 秒
+            txtRightSec.Text = "1.5";  // 新增：右移預設 2 秒
+            txtWaitSec.Text = "3";  // 新增：技能前等待預設 10 秒
         }
 
         private void InitializeHotKeys()
@@ -72,8 +72,8 @@ namespace ArtaleAutoBot
         // 修改後的點擊邏輯
         private async Task SimulateClickWithDeviation(Point basePos)
         {
-            // 設定偏差範圍，例如目標點周圍 ±5 像素
-            int range = 20;
+            // 設定偏差範圍，例如目標點周圍 ±10 像素
+            int range = 10;
             int offsetX = rnd.Next(-range, range + 1);
             int offsetY = rnd.Next(-range, range + 1);
 
@@ -157,7 +157,7 @@ namespace ArtaleAutoBot
                                 SendKeyAction(vk, true);
                                 await RandomDelay(100, 200); // 隨機按壓
                                 SendKeyAction(vk, false);
-                                await RandomDelay(400, 700); // 招式間隨機間隔 0.4~0.7s
+                                await RandomDelay(2000, 2500); // 招式間隨機間隔 2~2.5s
                             }
                             catch { }
                         }
